@@ -38,6 +38,7 @@ mqtt_client.loop_start()
 
 # MESSAGE HANDLING
 try:
+    print ("Press Ctrl+C to end")
     while 1:
         sleep(0.01)
         if Connected == True:
