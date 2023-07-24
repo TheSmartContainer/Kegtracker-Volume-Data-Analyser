@@ -3,12 +3,13 @@ import paho.mqtt.client as paho
 from queue import Queue
 from time import sleep
 from datetime import datetime, timezone
+import json
 
 # MQTT PARAMETERS
 MQTT_BROKER = "office.smartsentry.co.uk"
 MQTT_PORT = 1883
 deviceid = "80E1274DA35F"
-MQTT_TOPIC = "devices/"+deviceid+"/up/Accel"
+MQTT_TOPIC = [("devices/"+deviceid+"/up/Accel",0),("devices/"+deviceid+"/up/AFE",0),("devices/"+deviceid+"/up/Shock",0),("devices/"+deviceid+"/up/BLE",0)]
 
 # MQTT CLIENT
 mqtt_client = paho.Client()
@@ -48,7 +49,11 @@ try:
                 if message is None:
                     continue
                 ts = datetime.now(timezone.utc)
-                print(message)
+                if message.topic == "devices/"+deviceid+"/up/AFE":
+                    m_decode_AFE = json.loads(message.payload.decode("utf-8"))
+                    vol = m_decode_AFE['values']
+                    print(str(m_decode_AFE))
+
     else:
         print("Waiting for connection")
 except KeyboardInterrupt:
