@@ -37,15 +37,19 @@ mqtt_client.connect(MQTT_BROKER, MQTT_PORT, keepalive=60)
 mqtt_client.loop_start()
 
 # MESSAGE HANDLING
-while 1:
-    sleep(0.01)
-    if Connected == True:
-        mqtt_client.subscribe(MQTT_TOPIC)
-        while not q.empty():
-            message = q.get()
-            if message is None:
-                continue
-            ts = datetime.now(timezone.utc)
-            print(message)
+try:
+    while 1:
+        sleep(0.01)
+        if Connected == True:
+            mqtt_client.subscribe(MQTT_TOPIC)
+            while not q.empty():
+                message = q.get()
+                if message is None:
+                    continue
+                ts = datetime.now(timezone.utc)
+                print(message)
     else:
         print("Waiting for connection")
+except KeyboardInterrupt:
+    print("End")
+    pass
