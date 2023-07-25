@@ -1,4 +1,4 @@
-# Import libraries
+# IMPORT LIBRARIES
 import paho.mqtt.client as paho
 from queue import Queue
 import time
@@ -7,11 +7,14 @@ import json
 import tkinter as tk
 import matplotlib.pyplot as plt
 
+# IMPORT FILES
+import volume_algorithm as va
+
 # MQTT PARAMETERS
 MQTT_BROKER = "office.smartsentry.co.uk"
 MQTT_PORT = 1883
-# deviceid = "80E1274DA35F"
-deviceid = "80E1274DA9E8"
+deviceid = "80E1274DA35F"
+# deviceid = "80E1274DA9E8"
 # MQTT_TOPIC = [("devices/"+deviceid+"/up/Accel",0),("devices/"+deviceid+"/up/AFE",0),("devices/"+deviceid+"/up/Shock",0),("devices/"+deviceid+"/up/BLE",0)]
 MQTT_TOPIC = "devices/"+deviceid+"/up/AFE"
 messages_received = 0
@@ -86,21 +89,13 @@ def message_handling(App):
                 vol_samples = []
                 for value in AFE_data["values"]:
                     vol_samples.append(value)
-                    print(value)
+            fill_level = va.find_peaks_and_troughs(vol_samples)
             global messages_received
             messages_received += 1
             App.label_messages_received.configure(text=str(messages_received))
-            # Create chart
-            data_plot(vol_samples)
     else:
         App.label_connection_status.configure(text="Disconnected")
         print("Waiting for connection")
-
-# DATA PLOTTING
-def data_plot(data):
-    plt.plot(data, label=time.strftime("%H:%M:%S"))
-    plt.legend()
-    plt.show()
 
 # CREATE APPLICATION
 app = App("Kegtracker Volume Data Analyser")
