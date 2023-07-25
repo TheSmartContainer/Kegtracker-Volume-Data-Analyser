@@ -71,7 +71,9 @@ def find_peaks_and_troughs(input_array):
     print("Time of Flight: ", tof)
     print("Fill level: ", fill_level)
 
-# plt.axvline(x=peaks[2], color = 'k') # Plot first peak
-# plt.legend()
-# plt.annotate("Fill Level: " + str(fill_level) + "%", xy = (third_peak_index, moving_average[third_peak_index]), xytext=(third_peak_index + 20, moving_average[third_peak_index]+500), arrowprops= dict(facecolor = 'black', shrink = 0.03),)
-# plt.show()
+    plt.figure()
+    plt.plot(input_array)
+    plt.plot(moving_average)
+    plt.axvline(peaks[2],color='k')
+    plt.annotate("Fill Level: " + str(fill_level) + "%", xy = (peaks[2], moving_average[peaks[2]]), xytext=(peaks[2] + 20, moving_average[peaks[2]]+500), arrowprops= dict(facecolor = 'black', shrink = 0.03),)
+    plt.show()

@@ -8,7 +8,7 @@ import tkinter as tk
 import matplotlib.pyplot as plt
 
 # IMPORT FILES
-import volume_algorithm
+import volume_algorithm as va
 
 # MQTT PARAMETERS
 MQTT_BROKER = "office.smartsentry.co.uk"
@@ -90,20 +90,13 @@ def message_handling(App):
                 for value in AFE_data["values"]:
                     vol_samples.append(value)
                     print(value)
+            va.find_peaks_and_troughs(vol_samples)
             global messages_received
             messages_received += 1
             App.label_messages_received.configure(text=str(messages_received))
-            # Create chart
-            data_plot(vol_samples)
     else:
         App.label_connection_status.configure(text="Disconnected")
         print("Waiting for connection")
-
-# DATA PLOTTING
-def data_plot(data):
-    plt.plot(data, label=time.strftime("%H:%M:%S"))
-    plt.legend()
-    plt.show()
 
 # CREATE APPLICATION
 app = App("Kegtracker Volume Data Analyser")
