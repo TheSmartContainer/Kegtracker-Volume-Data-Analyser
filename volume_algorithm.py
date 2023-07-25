@@ -38,6 +38,7 @@ def find_next_peak(input_array, start_index):
 # FIND NEXT TROUGH
 def find_next_trough(input_array, start_index):
     index = start_index
+    print("TROUGH (START INDEX", start_index)
     min_val = input_array[start_index]
     for i in range(start_index+1, len(input_array)):
         if input_array[i] < min_val:
@@ -55,13 +56,10 @@ def find_peaks_and_troughs(input_array):
     index = 0
     while index < signal_length - moving_average_window:
         peaks.append(find_next_peak(moving_average, index))
-        print(peaks[-1])
-        index = peaks[-1]
-        troughs.append(find_next_trough(moving_average, index))
-        print(troughs[-1])
-        if peaks[-1] == troughs[-1]:
-            break
-        index = troughs[-1]
+        index = peaks[-1]+1
+        if index < signal_length - moving_average_window:
+            troughs.append(find_next_trough(moving_average, index))
+            index = troughs[-1]+1
 
     # FILL LEVEL CALCULATION
     index_difference = peaks[2] - peaks[0]
@@ -95,9 +93,13 @@ def find_peaks_and_troughs(input_array):
         plt.plot(ma[i])
     plt.axvline(peaks[2],color='k')
     plt.annotate("Fill Level: " + str(fill_level) + "%", xy = (peaks[2], moving_average[peaks[2]]), xytext=(peaks[2] + 20, moving_average[peaks[2]]+500), arrowprops= dict(facecolor = 'black', shrink = 0.03),)
+    for peak in peaks:
+        plt.axvline(peak, color='y')
     if peaks[2] != max_peak:
         plt.axvline(max_peak,color='k')
         plt.annotate("Fill Level (MAX): " + str(fill_level_max) + "%", xy = (max_peak, moving_average[max_peak]), xytext=(max_peak + 20, moving_average[max_peak]+500), arrowprops= dict(facecolor = 'black', shrink = 0.03),)
     plt.show()
 
     return fill_level
+
+#find_peaks_and_troughs(sample_values)

@@ -89,7 +89,6 @@ def message_handling(App):
                 vol_samples = []
                 for value in AFE_data["values"]:
                     vol_samples.append(value)
-                    print(value)
             fill_level = va.find_peaks_and_troughs(vol_samples)
             global messages_received
             messages_received += 1
