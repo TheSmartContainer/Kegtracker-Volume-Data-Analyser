@@ -13,8 +13,8 @@ import volume_algorithm as va
 # MQTT PARAMETERS
 MQTT_BROKER = "office.smartsentry.co.uk"
 MQTT_PORT = 1883
-# deviceid = "80E1274DA35F"
-deviceid = "80E1274DA9E8"
+deviceid = "80E1274DA35F"
+# deviceid = "80E1274DA9E8"
 # MQTT_TOPIC = [("devices/"+deviceid+"/up/Accel",0),("devices/"+deviceid+"/up/AFE",0),("devices/"+deviceid+"/up/Shock",0),("devices/"+deviceid+"/up/BLE",0)]
 MQTT_TOPIC = "devices/"+deviceid+"/up/AFE"
 messages_received = 0
@@ -90,7 +90,7 @@ def message_handling(App):
                 for value in AFE_data["values"]:
                     vol_samples.append(value)
                     print(value)
-            va.find_peaks_and_troughs(vol_samples)
+            fill_level = va.find_peaks_and_troughs(vol_samples)
             global messages_received
             messages_received += 1
             App.label_messages_received.configure(text=str(messages_received))
