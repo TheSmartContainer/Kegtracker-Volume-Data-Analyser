@@ -48,52 +48,30 @@ def find_next_trough(input_array, start_index):
             break
     return index
 
-# ANALYSE SAMPLE DATA
-plt.plot(sample_values) # Plot sample
-moving_average = moving_avg_calc(sample_values)
-plt.plot(moving_average) # Plot moving average
+# PROCESS DATA
+def find_peaks_and_troughs(input_array):
+    moving_average = moving_avg_calc(input_array)
+    peaks = []
+    troughs = []
+    index = 0
+    while index < signal_length - moving_average_window:
+        peaks.append(find_next_peak(moving_average, index))
+        print(peaks[-1])
+        index = peaks[-1]
+        troughs.append(find_next_trough(moving_average, index))
+        print(troughs[-1])
+        if peaks[-1] == troughs[-1]:
+            break
+        index = troughs[-1]
 
-peaks = []
-troughs = []
+    index_difference = peaks[2] - peaks[0]
+    tof = index_difference * sample_interval
+    fill_level = round(100 * (tof * speed_of_sound) / (keg_height * 2), 1)
+    print("Index Difference: ", index_difference)
+    print("Time of Flight: ", tof)
+    print("Fill level: ", fill_level)
 
-index = 0
-while index < signal_length - moving_average_window:
-    peaks.append(find_next_peak(moving_average, index))
-    print(peaks[-1])
-    index = peaks[-1]
-    troughs.append(find_next_trough(moving_average, index))
-    print(troughs[-1])
-    if peaks[-1] == troughs[-1]:
-        break
-    index = troughs[-1]
-
-for peak in peaks:
-    print(peak)
-
-""" first_peak_index = find_next_peak(moving_average, 0)
-plt.axvline(x=first_peak_index, color = 'k') # Plot first peak
-first_trough_index = find_next_trough(moving_average, first_peak_index)
-plt.axvline(x=first_trough_index, color = 'y') # Plot first trough
-second_peak_index = find_next_peak(moving_average, first_trough_index)
-plt.axvline(x=second_peak_index, color = 'k') # Plot second peak
-second_trough_index = find_next_trough(moving_average, second_peak_index)
-plt.axvline(x=second_trough_index, color = 'y') # Plot second trough
-third_peak_index = find_next_peak(moving_average, second_trough_index)
-plt.axvline(x=third_peak_index, color = 'g') # Plot third peakß
-third_trough_index = find_next_trough(moving_average, third_peak_index)
-plt.axvline(x=third_trough_index, color = 'y') # Plot third trough
-fourth_peak_index = find_next_peak(moving_average, third_trough_index)
-plt.axvline(x=fourth_peak_index, color = 'g') # Plot third peak """
-
+# plt.axvline(x=peaks[2], color = 'k') # Plot first peak
 # plt.legend()
-
-""" index_difference = third_peak_index - first_peak_index
-tof = index_difference * sample_interval
-fill_level = round(100 * (tof * speed_of_sound) / (keg_height * 2), 1)
-print("Index Difference: ", index_difference)
-print("Time of Flight: ", tof)
-print("Fill level: ", fill_level) """
-
 # plt.annotate("Fill Level: " + str(fill_level) + "%", xy = (third_peak_index, moving_average[third_peak_index]), xytext=(third_peak_index + 20, moving_average[third_peak_index]+500), arrowprops= dict(facecolor = 'black', shrink = 0.03),)
-
-plt.show()
+# plt.show()

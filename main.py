@@ -1,4 +1,4 @@
-# Import libraries
+# IMPORT LIBRARIES
 import paho.mqtt.client as paho
 from queue import Queue
 import time
@@ -6,6 +6,9 @@ from datetime import datetime, timezone
 import json
 import tkinter as tk
 import matplotlib.pyplot as plt
+
+# IMPORT FILES
+import volume_algorithm
 
 # MQTT PARAMETERS
 MQTT_BROKER = "office.smartsentry.co.uk"
