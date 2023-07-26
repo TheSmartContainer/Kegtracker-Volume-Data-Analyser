@@ -54,10 +54,10 @@ def find_peaks_and_troughs(input_array):
     peaks = []
     troughs = []
     index = 0
-    while index < signal_length - moving_average_window:
+    while index < signal_length - moving_average_window - 1:
         peaks.append(find_next_peak(moving_average, index))
         index = peaks[-1]+1
-        if index < signal_length - moving_average_window:
+        if index < signal_length - moving_average_window - 1:
             troughs.append(find_next_trough(moving_average, index))
             index = troughs[-1]+1
 
