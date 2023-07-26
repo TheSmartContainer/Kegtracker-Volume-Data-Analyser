@@ -100,6 +100,6 @@ def find_peaks_and_troughs(input_array):
         plt.annotate("Fill Level (MAX): " + str(fill_level_max) + "%", xy = (max_peak, moving_average[max_peak]), xytext=(max_peak + 20, moving_average[max_peak]+500), arrowprops= dict(facecolor = 'black', shrink = 0.03),)
     plt.show()
 
-    return fill_level_max
+    return tof_max
 
-#find_peaks_and_troughs(sample_values)
+# find_peaks_and_troughs(sample_values)
