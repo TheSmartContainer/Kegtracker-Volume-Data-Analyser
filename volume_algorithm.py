@@ -102,4 +102,4 @@ def find_peaks_and_troughs(input_array):
 
     return tof_max
 
-# find_peaks_and_troughs(sample_values)
+find_peaks_and_troughs(sample_values)
