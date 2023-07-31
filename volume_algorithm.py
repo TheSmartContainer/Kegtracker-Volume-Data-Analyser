@@ -62,12 +62,12 @@ def find_peaks_and_troughs(input_array):
             index = troughs[-1]+1
 
     # FILL LEVEL CALCULATION
-    index_difference = peaks[2] - peaks[0]
-    tof = index_difference * sample_interval
-    fill_level = round(100 * (tof * speed_of_sound) / (keg_height * 2), 1)
-    print("Index Difference: ", index_difference)
-    print("Time of Flight: ", tof)
-    print("Fill level: ", fill_level)
+    # index_difference = peaks[2] - peaks[0]
+    # tof = index_difference * sample_interval
+    # fill_level = round(100 * (tof * speed_of_sound) / (keg_height * 2), 1)
+    # print("Index Difference: ", index_difference)
+    # print("Time of Flight: ", tof)
+    # print("Fill level: ", fill_level)
 
     # MAX PEAK CALCULATION AFTER RINGDOWN
     for peak in peaks:
@@ -84,21 +84,21 @@ def find_peaks_and_troughs(input_array):
     print("Time of Flight (MAX): ", tof_max)
     print("Fill level (MAX): ", fill_level_max)    
 
-    plt.figure()
-    plt.plot(input_array)
-    plt.plot(moving_average)
-    ma = []
-    for i in range(0,3):
-        ma.append(moving_avg_calc(input_array, moving_average_window + (i*2)))
-        plt.plot(ma[i])
-    plt.axvline(peaks[2],color='k')
-    plt.annotate("Fill Level: " + str(fill_level) + "%", xy = (peaks[2], moving_average[peaks[2]]), xytext=(peaks[2] + 20, moving_average[peaks[2]]+500), arrowprops= dict(facecolor = 'black', shrink = 0.03),)
-    for peak in peaks:
-        plt.axvline(peak, color='y')
-    if peaks[2] != max_peak:
-        plt.axvline(max_peak,color='k')
-        plt.annotate("Fill Level (MAX): " + str(fill_level_max) + "%", xy = (max_peak, moving_average[max_peak]), xytext=(max_peak + 20, moving_average[max_peak]+500), arrowprops= dict(facecolor = 'black', shrink = 0.03),)
-    plt.show()
+    # plt.figure()
+    # plt.plot(input_array)
+    # plt.plot(moving_average)
+    # ma = []
+    # for i in range(0,3):
+    #     ma.append(moving_avg_calc(input_array, moving_average_window + (i*2)))
+    #     plt.plot(ma[i])
+    # plt.axvline(peaks[2],color='k')
+    # plt.annotate("Fill Level: " + str(fill_level) + "%", xy = (peaks[2], moving_average[peaks[2]]), xytext=(peaks[2] + 20, moving_average[peaks[2]]+500), arrowprops= dict(facecolor = 'black', shrink = 0.03),)
+    # for peak in peaks:
+    #     plt.axvline(peak, color='y')
+    # if peaks[2] != max_peak:
+    #     plt.axvline(max_peak,color='k')
+    #     plt.annotate("Fill Level (MAX): " + str(fill_level_max) + "%", xy = (max_peak, moving_average[max_peak]), xytext=(max_peak + 20, moving_average[max_peak]+500), arrowprops= dict(facecolor = 'black', shrink = 0.03),)
+    # plt.show()
 
     return tof_max
 
