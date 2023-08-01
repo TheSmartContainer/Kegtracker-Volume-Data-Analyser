@@ -75,6 +75,8 @@ class App():
             exit()
 
 # MESSAGE HANDLING
+samples = []
+average_sample = []
 def message_handling(App):
     if Connected == True:
         App.label_connection_status.configure(text="Connected")
@@ -89,7 +91,14 @@ def message_handling(App):
                 vol_samples = []
                 for value in AFE_data["values"]:
                     vol_samples.append(value)
-            fill_level = va.find_peaks_and_troughs(vol_samples)
+                #samples.append(va.find_peaks_and_troughs(vol_samples))
+                samples.append(vol_samples)
+                average_sample = va.average_samples(samples, 5)
+                plt.clf()
+                plt.plot(average_sample[5], label=(average_sample[2]))
+                plt.axvline(average_sample[3], color='k')
+                plt.legend()
+                plt.show()
             global messages_received
             messages_received += 1
             App.label_messages_received.configure(text=str(messages_received))

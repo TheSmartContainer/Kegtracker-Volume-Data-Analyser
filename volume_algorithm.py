@@ -1,9 +1,10 @@
 # IMPORT LIBRARIES
 import matplotlib.pyplot as plt
+import numpy as np
 
 # CONFIGURATION
 signal_length = 200
-moving_average_window = 5
+moving_average_window = 15
 sample_interval = 3.28125 # Microseconds
 keg_height = 445 # Millimeters
 speed_of_sound = 1.5 # Millimeters per microsecond
@@ -39,7 +40,6 @@ def find_next_peak(input_array, start_index):
 # FIND NEXT TROUGH
 def find_next_trough(input_array, start_index):
     index = start_index
-    print("TROUGH (START INDEX", start_index)
     min_val = input_array[start_index]
     for i in range(start_index+1, len(input_array)):
         if input_array[i] < min_val:
@@ -85,13 +85,14 @@ def find_peaks_and_troughs(input_array):
     print("Time of Flight (MAX): ", tof_max)
     print("Fill level (MAX): ", fill_level_max)    
 
-    plt.figure()
-    plt.plot(input_array)
-    plt.plot(moving_average)
+    #plt.figure()
+    #plt.plot(input_array)
+    #plt.plot(moving_average)
     ma = []
     for i in range(0,3):
         ma.append(moving_avg_calc(input_array, moving_average_window + (i*2)))
-        plt.plot(ma[i])
+        #plt.plot(ma[i])
+    '''
     plt.axvline(peaks[2],color='k')
     plt.annotate("Fill Level: " + str(fill_level) + "%", xy = (peaks[2], moving_average[peaks[2]]), xytext=(peaks[2] + 20, moving_average[peaks[2]]+500), arrowprops= dict(facecolor = 'black', shrink = 0.03),)
     for peak in peaks:
@@ -100,7 +101,17 @@ def find_peaks_and_troughs(input_array):
         plt.axvline(max_peak,color='k')
         plt.annotate("Fill Level (MAX): " + str(fill_level_max) + "%", xy = (max_peak, moving_average[max_peak]), xytext=(max_peak + 20, moving_average[max_peak]+500), arrowprops= dict(facecolor = 'black', shrink = 0.03),)
     plt.show()
+    '''
 
-    return tof_max
+    return index_difference_max, tof_max, fill_level_max, max_peak, input_array, moving_average
+
+# AVERAGE OF PREVIOUS RESULTS
+def average_samples(samples, range):
+    sample_average = np.array(samples[-range:])
+    print("Sample List Length = ", len(sample_average))
+    sample_average = np.average(sample_average, axis=0)
+    sample_average_analysis = find_peaks_and_troughs(sample_average)
+
+    return sample_average_analysis
 
 # find_peaks_and_troughs(sample_values)
