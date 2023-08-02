@@ -72,11 +72,11 @@ def find_peaks_and_troughs(input_array):
 
     # MAX PEAK CALCULATION AFTER RINGDOWN
     for peak in peaks:
-        if peak > 37:
+        if peak > 55:
             max_peak = peak
             break
     for peak in peaks:
-        if peak > 37 and moving_average[peak] > moving_average[max_peak]:
+        if peak > 55 and moving_average[peak] > moving_average[max_peak]:
             max_peak = peak
     index_difference_max = max_peak - peaks[0]
     tof_max = index_difference_max * sample_interval
