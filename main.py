@@ -95,6 +95,7 @@ def message_handling(App):
                 samples.append(vol_samples)
                 average_sample = va.average_samples(samples, 5)
                 plt.clf()
+                #plt.figure()
                 plt.plot(average_sample[5], label=(average_sample[2]))
                 plt.axvline(average_sample[3], color='k')
                 plt.legend()
