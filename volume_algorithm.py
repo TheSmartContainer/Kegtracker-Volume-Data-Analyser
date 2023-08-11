@@ -4,7 +4,7 @@ import numpy as np
 
 # CONFIGURATION
 signal_length = 200
-moving_average_window = 15
+moving_average_window = 3
 sample_interval = 3.28125 # Microseconds
 keg_height = 445 # Millimeters
 speed_of_sound = 1.5 # Millimeters per microsecond
@@ -72,11 +72,11 @@ def find_peaks_and_troughs(input_array):
 
     # MAX PEAK CALCULATION AFTER RINGDOWN
     for peak in peaks:
-        if peak > 50:
+        if peak > 55:
             max_peak = peak
             break
     for peak in peaks:
-        if peak > 50 and moving_average[peak] > moving_average[max_peak]:
+        if peak > 55 and moving_average[peak] > moving_average[max_peak]:
             max_peak = peak
     index_difference_max = max_peak - peaks[0]
     tof_max = index_difference_max * sample_interval
