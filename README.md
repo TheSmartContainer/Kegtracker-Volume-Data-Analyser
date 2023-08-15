@@ -7,3 +7,5 @@
     https://pypi.org/project/matplotlib/
 3) numpy
     https://pypi.org/project/numpy/
+4) pandas
+    https://pypi.org/project/pandas/
