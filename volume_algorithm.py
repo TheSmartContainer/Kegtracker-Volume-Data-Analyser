@@ -1,6 +1,7 @@
 # IMPORT LIBRARIES
 import matplotlib.pyplot as plt
 import numpy as np
+import datetime
 
 # CONFIGURATION
 signal_length = 200
@@ -8,6 +9,7 @@ moving_average_window = 3
 sample_interval = 3.28125 # Microseconds
 keg_height = 445 # Millimeters
 speed_of_sound = 1.5 # Millimeters per microsecond
+min_index = 50 # Ringdown boundary index
 
 # SAMPLE VALUES
 sample_values = [1851,1959,2022,2043,2023,1970,1877,1755,1617,1478,1328,1181,1049,938,829,751,687,625,571,530,531,517,478,442,497,638,745,784,796,756,701,665,613,566,521,479,443,427,403,381,367,351,341,334,345,362,390,443,483,509,465,434,408,400,412,398,394,391,383,384,387,363,376,374,383,383,378,391,382,379,413,469,516,533,520,489,450,428,418,399,389,387,389,395,381,351,335,335,326,323,324,322,309,297,335,352,342,324,311,324,327,360,414,467,499,523,513,497,486,449,411,395,386,369,372,372,360,351,354,346,329,312,307,313,311,307,315,327,364,360,367,384,397,412,407,409,402,385,373,388,416,424,472,505,503,459,429,391,381,370,372,350,361,340,349,367,353,359,359,357,356,355,373,368,365,358,374,406,446,471,460,421,394,377,371,358,341,350,367,352,339,351,348,339,323,323,343,354,353,373,386,428,459,462,460,445,451,445,425,411]
@@ -72,18 +74,20 @@ def find_peaks_and_troughs(input_array):
 
     # MAX PEAK CALCULATION AFTER RINGDOWN
     for peak in peaks:
-        if peak > 55:
+        if peak > min_index:
             max_peak = peak
             break
     for peak in peaks:
-        if peak > 55 and moving_average[peak] > moving_average[max_peak]:
+        if peak > min_index and moving_average[peak] > moving_average[max_peak]:
             max_peak = peak
     index_difference_max = max_peak - peaks[0]
     tof_max = index_difference_max * sample_interval
     fill_level_max = round(100 * (tof_max * speed_of_sound) / (keg_height * 2), 1)
+    max_peak_gain = moving_average[max_peak]
     print("Index Difference (MAX): ", index_difference_max)
     print("Time of Flight (MAX): ", tof_max)
     print("Fill level (MAX): ", fill_level_max)    
+    print("Peak Gain: ", max_peak_gain)
 
     #plt.figure()
     #plt.plot(input_array)
@@ -103,7 +107,9 @@ def find_peaks_and_troughs(input_array):
     plt.show()
     '''
 
-    return index_difference_max, tof_max, fill_level_max, max_peak, input_array, moving_average
+    ts = datetime.datetime.now().timestamp()
+
+    return ts, index_difference_max, tof_max, fill_level_max, max_peak, max_peak_gain, input_array, moving_average
 
 # AVERAGE OF PREVIOUS RESULTS
 def average_samples(samples, range):

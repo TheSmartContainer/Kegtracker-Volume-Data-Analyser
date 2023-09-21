@@ -15,7 +15,8 @@ import volume_algorithm as va
 MQTT_BROKER = "office.smartsentry.co.uk"
 MQTT_PORT = 1883
 deviceid = "80E1274DA35F"
-# deviceid = "80E1274DA9E8"
+#deviceid = "80E1274DA9E8"
+#deviceid = "80E1274DA988"
 # MQTT_TOPIC = [("devices/"+deviceid+"/up/Accel",0),("devices/"+deviceid+"/up/AFE",0),("devices/"+deviceid+"/up/Shock",0),("devices/"+deviceid+"/up/BLE",0)]
 MQTT_TOPIC = "devices/"+deviceid+"/up/AFE"
 messages_received = 0
@@ -75,6 +76,8 @@ class App():
         self.filllevel_label = tk.Label(text="Fill level not set")
         self.filllevel_label.config(bg="red")
         self.filllevel_label.pack()
+        self.label_lastmessagetime = tk.Label(text="N/A")
+        self.label_lastmessagetime.pack()
         self.update_clock()
         self.root.mainloop()
         print("Press Ctrl+C to terminate")
@@ -112,8 +115,10 @@ def message_handling(App):
                 samples_fl.append(va.average_samples(samples, 1))
                 plt.clf()
                 #plt.figure()
-                plt.plot(average_sample[5], label=(average_sample[2]))
-                plt.axvline(average_sample[3], color='k')
+                plt.plot(average_sample[7], label=(average_sample[3]))
+                ax = plt.gca()
+                ax.set_ylim([0, 4000])
+                plt.axvline(average_sample[4], color='k')
                 plt.legend()
                 plt.show()
                 export_to_csv()
@@ -122,6 +127,8 @@ def message_handling(App):
             messages_received += 1
             messages_received_fl += 1
             App.label_messages_received.configure(text=str(messages_received)+" : "+str(messages_received_fl))
+            mts = time.strftime("%H:%M:%S")
+            App.label_lastmessagetime.configure(text=mts)
     else:
         App.label_connection_status.configure(text="Disconnected")
         print("Waiting for connection")
