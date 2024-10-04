@@ -54,6 +54,24 @@ def find_next_trough(input_array, start_index):
 # PROCESS DATA
 def find_peaks_and_troughs(input_array):
     moving_average = moving_avg_calc(input_array, moving_average_window)
+
+    # MASK FOR KEG SPEAR REFLECTION
+    mask = [0] * len(moving_average)
+    start_index = 78
+    end_index = 132
+    midpoint = (start_index + end_index) // 2
+    peak_value = 550
+
+    # Fill the mask array with values that slope up to 550 and then back down to 0
+    for i in range(start_index, midpoint + 1):
+        mask[i] = int(peak_value * (i - start_index) / (midpoint - start_index))
+    
+    for i in range(midpoint + 1, end_index + 1):
+        mask[i] = int(peak_value * (end_index - i) / (end_index - midpoint))
+
+    # Get difference between mask and moving average
+    moving_average = [a - b for a, b in zip(moving_average, mask)]
+    
     peaks = []
     troughs = []
     index = 0
@@ -109,7 +127,7 @@ def find_peaks_and_troughs(input_array):
 
     ts = datetime.datetime.now().timestamp()
 
-    return ts, index_difference_max, tof_max, fill_level_max, max_peak, max_peak_gain, input_array, moving_average
+    return ts, index_difference_max, tof_max, fill_level_max, max_peak, max_peak_gain, input_array, moving_average, mask
 
 # AVERAGE OF PREVIOUS RESULTS
 def average_samples(samples, range):

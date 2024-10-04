@@ -120,7 +120,7 @@ def message_handling(App):
                 #plt.figure()
                 plt.plot(average_sample[7], label=(average_sample[3]))
                 ax = plt.gca()
-                ax.set_ylim([0, 4000])
+                ax.set_ylim([0, 4000])  
                 plt.axvline(average_sample[4], color='k')
                 plt.legend()
                 plt.show()
