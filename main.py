@@ -14,7 +14,10 @@ import volume_algorithm as va
 # MQTT PARAMETERS
 MQTT_BROKER = "office.smartsentry.co.uk"
 MQTT_PORT = 1883
-deviceid = "80E1274DA35F"
+#deviceid = "80E127F2FCB7"
+deviceid = "80E127F2FC35"
+#deviceid = "80E127F2FBC0"
+#deviceid = "80E1274DA35F"
 #deviceid = "80E1274DA9E8"
 #deviceid = "80E1274DA988"
 # MQTT_TOPIC = [("devices/"+deviceid+"/up/Accel",0),("devices/"+deviceid+"/up/AFE",0),("devices/"+deviceid+"/up/Shock",0),("devices/"+deviceid+"/up/BLE",0)]
