@@ -119,6 +119,7 @@ def message_handling(App):
                 plt.clf()
                 #plt.figure()
                 plt.plot(average_sample[7], label=(average_sample[3]))
+                plt.plot(average_sample[8], label="Original")
                 ax = plt.gca()
                 ax.set_ylim([0, 4000])  
                 plt.axvline(average_sample[4], color='k')
